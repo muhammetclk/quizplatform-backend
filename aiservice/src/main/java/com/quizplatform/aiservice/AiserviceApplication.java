@@ -1,4 +1,4 @@
-package com.quizplatform.quizservice;
+package com.quizplatform.aiservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class QuizserviceApplication {
+public class AiserviceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(QuizserviceApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(AiserviceApplication.class, args);
+    }
 }

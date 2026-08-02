@@ -110,7 +110,28 @@ public class AttemptService {
         attemptRepository.save(attempt);
 
         // Kafka'ya event gönder
-        quizCompletedProducer.sendQuizCompleted(userId, quiz.getId(), score);
+        List<QuizAttemptEventDto.WrongAnswerDto> wrongAnswersForEvent = new ArrayList<>();
+        for (AttemptAnswer ans : attemptAnswers) {
+            if (Boolean.FALSE.equals(ans.getIsCorrect()) && ans.getSelectedOption() != null) {
+                Option correctOpt = ans.getQuestion().getOptions().stream().filter(Option::isCorrect).findFirst().orElse(null);
+                wrongAnswersForEvent.add(QuizAttemptEventDto.WrongAnswerDto.builder()
+                        .questionId(ans.getQuestion().getId())
+                        .questionContent(ans.getQuestion().getContent())
+                        .selectedOptionContent(ans.getSelectedOption().getContent())
+                        .correctOptionContent(correctOpt != null ? correctOpt.getContent() : null)
+                        .build());
+            }
+        }
+
+        QuizAttemptEventDto eventDto = QuizAttemptEventDto.builder()
+                .userId(userId)
+                .quizId(quiz.getId())
+                .attemptId(attempt.getId())
+                .score(score)
+                .wrongAnswers(wrongAnswersForEvent)
+                .build();
+
+        quizCompletedProducer.sendQuizCompleted(eventDto);
 
         return AttemptResultDto.builder()
                 .attemptId(attempt.getId())

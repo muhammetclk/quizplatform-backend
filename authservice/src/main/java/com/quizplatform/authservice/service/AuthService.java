@@ -54,8 +54,8 @@ public class AuthService {
 
     private AuthResponse buildAuthResponse(User user) {
         return AuthResponse.builder()
-                .accessToken(jwtService.generateAccessToken(user.getEmail(), user.getRole().name()))
-                .refreshToken(jwtService.generateRefreshToken(user.getEmail()))
+                .accessToken(jwtService.generateAccessToken(user.getId().toString(), user.getEmail(), user.getRole().name()))
+                .refreshToken(jwtService.generateRefreshToken(user.getId().toString(), user.getEmail()))
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .role(user.getRole().name())

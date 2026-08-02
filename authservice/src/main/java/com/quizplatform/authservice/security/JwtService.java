@@ -28,15 +28,15 @@ public class JwtService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    public String generateAccessToken(String email, String role) {
-        return buildToken(email, role, expiration);
+    public String generateAccessToken(String userId, String email, String role) {
+        return buildToken(userId, email, role, expiration);
     }
 
-    public String generateRefreshToken(String email) {
-        return buildToken(email, null, refreshExpiration);
+    public String generateRefreshToken(String userId, String email) {
+        return buildToken(userId, email, null, refreshExpiration);
     }
 
-    private String buildToken(String subject, String role, long expirationTime) {
+    private String buildToken(String userId, String subject, String role, long expirationTime) {
         var builder = Jwts.builder()
                 .subject(subject)
                 .issuedAt(new Date())
@@ -45,6 +45,9 @@ public class JwtService {
 
         if (role != null) {
             builder.claim("role", role);
+        }
+        if (userId != null) {
+            builder.claim("userId", userId);
         }
 
         return builder.compact();

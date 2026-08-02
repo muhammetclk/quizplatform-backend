@@ -41,6 +41,19 @@ spring:
               filters:
                 - AuthFilter
 
+            # AI Service WebSocket & HTTP
+            - id: ai-service-ws
+              uri: lb://aiservice
+              predicates:
+                - Path=/ws-ai/**
+              
+            - id: ai-service-http
+              uri: lb://aiservice
+              predicates:
+                - Path=/api/ai/**
+              filters:
+                - AuthFilter
+
 eureka:
   client:
     service-url:

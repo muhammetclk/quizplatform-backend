@@ -42,12 +42,14 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
             Claims claims = jwtUtil.extractAllClaims(token);
             String email = claims.getSubject();
+            String userId = claims.get("userId", String.class);
 
-            log.debug("Token doğrulandı: email={}", email);
+            log.debug("Token doğrulandı: email={}, userId={}", email, userId);
 
             ServerWebExchange modifiedExchange = exchange.mutate()
                     .request(r -> r
                             .header("X-User-Email", email)
+                            .header("X-User-Id", userId != null ? userId : "")
                             .header("X-User-Role",
                                     claims.get("role", String.class) != null
                                             ? claims.get("role", String.class)

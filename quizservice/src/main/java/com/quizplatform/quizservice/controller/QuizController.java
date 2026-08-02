@@ -37,9 +37,9 @@ public class QuizController {
     }
 
     @GetMapping("/quiz/{quizId}")
-    public ResponseEntity<ApiResponse<QuizDetailDto>> getQuizDetail(@PathVariable UUID quidId) {
+    public ResponseEntity<ApiResponse<QuizDetailDto>> getQuizDetail(@PathVariable UUID quizId) {
 
-        QuizDetailDto quiz = quizService.getQuizDetail(quidId);
+        QuizDetailDto quiz = quizService.getQuizDetail(quizId);
         return ResponseEntity.ok(ApiResponse.success(quiz,"quiz is listed."));
 
 

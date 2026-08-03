@@ -37,7 +37,7 @@ spring:
             - id: quiz-service
               uri: lb://quizservice
               predicates:
-                - Path=/api/category/**, /api/topic/**, /api/quiz/**, /api/attempt/**
+                - Path=/api/category/**, /api/topic/**, /api/quiz/**, /api/attempt/**, /api/admin/**
               filters:
                 - AuthFilter
 
